@@ -150,10 +150,10 @@ class PengaduanController extends Controller
                 "Anda harus login untuk membuat pengaduan",
             );
         }
-        if ($auth->role == "eksekutor") {
+        if ($auth->role != "penduduk") {
             return redirect("/pengaduan")->with(
                 "error",
-                "Eksekutor tidak dapat membuat pengaduan",
+                "Hanya penduduk yang dapat membuat pengaduan",
             );
         }
         $categories = KategoriPengaduan::select("id", "nama")->get();

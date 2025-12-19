@@ -98,7 +98,7 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Cari</label>
-                        <input type="text" class="form-control" name="q" value="{{ $filters['q'] }}" 
+                        <input type="text" class="form-control" name="q" value="{{ $filters['q'] }}"
                                placeholder="Cari lokasi, rincian, pelapor...">
                     </div>
                     <div class="col-md-2 mb-3">
@@ -217,16 +217,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.pengaduan.show', $item->id) }}" 
+                                    <a href="{{ route('admin.pengaduan.show', $item->id) }}"
                                        class="btn btn-sm btn-outline-primary" title="Lihat Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <button type="button" class="btn btn-sm btn-outline-warning" title="Edit" 
-                                            onclick="editPengaduan({{ $item->id }}, {{ $item->kategori_id }}, '{{ $item->tanggal_pengaduan }}', '{{ addslashes($item->lokasi) }}', '{{ addslashes(Str::limit($item->rincian, 200)) }}')" 
-                                            data-toggle="modal" data-target="#editPengaduanModal">
+                                    <a href="{{ route('admin.pengaduan.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
                                         <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus" 
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" title="Hapus"
                                             onclick="deletePengaduan({{ $item->id }})">
                                         <i class="fas fa-trash"></i>
                                     </button>
@@ -236,11 +234,11 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Pagination -->
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <div class="text-muted">
-                        Menampilkan {{ $pengaduan->firstItem() }} sampai {{ $pengaduan->lastItem() }} 
+                        Menampilkan {{ $pengaduan->firstItem() }} sampai {{ $pengaduan->lastItem() }}
                         dari {{ $pengaduan->total() }} entri
                     </div>
                     <div>
@@ -256,8 +254,6 @@
             @endif
         </div>
     </div>
-
-@include('admin.pengaduan.modal_edit')
 
 @include('partials.confirm_modal', [
     'modal_id' => 'deletePengaduanModal',

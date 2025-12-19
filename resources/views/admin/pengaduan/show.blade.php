@@ -11,9 +11,9 @@
             <a href="{{ route('admin.pengaduan.index') }}" class="btn btn-sm btn-outline-secondary">
                 <i class="fas fa-arrow-left"></i> Kembali ke Daftar
             </a>
-            <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editPengaduanModal">
+            <a href="{{ route('admin.pengaduan.edit', $pengaduan->id) }}" class="btn btn-sm btn-warning">
                 <i class="fas fa-edit"></i> Edit
-            </button>
+            </a>
             <button class="btn btn-sm btn-danger" onclick="deletePengaduan({{ $pengaduan->id }})">
                 <i class="fas fa-trash"></i> Hapus
             </button>
@@ -420,7 +420,6 @@
     </div>
 </div>
 
-@include('admin.pengaduan.modal_edit')
 @include('partials.confirm_modal', [
     'modal_id' => 'deletePengaduanModal',
     'modal_title' => 'Konfirmasi Hapus Pengaduan',
