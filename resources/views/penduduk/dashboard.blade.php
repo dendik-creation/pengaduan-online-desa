@@ -3,14 +3,15 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Dashboard Penduduk</h1>
-        <a href="{{ route('landing.pengaduan.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Buat Pengaduan Baru
-        </a>
+        <div class="d-flex align-items-center">
+            <a href="{{ route('landing.pengaduan.create') }}" class="btn btn-sm btn-primary shadow-sm">
+                <i class="fas fa-plus fa-sm text-white-50"></i> Buat Pengaduan Baru
+            </a>
+        </div>
     </div>
 
-    <!-- Content Row -->
+    <!-- Content Row - Statistics Cards -->
     <div class="row">
-
         <!-- Total Pengaduan Saya Card -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary shadow h-100 py-2">
@@ -84,28 +85,145 @@
         </div>
     </div>
 
-    <!-- Content Row -->
+    <!-- Content Row - Performance & Rating Cards -->
     <div class="row">
+        <!-- Tingkat Penyelesaian Card -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-line"></i> Tingkat Penyelesaian
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    <div class="display-4 text-info mb-3">{{ $tingkatPenyelesaianUser }}%</div>
+                    <p class="text-muted mb-3">Dari total {{ $totalPengaduanSaya }} pengaduan Anda</p>
 
+                    @if($tingkatPenyelesaianUser >= 80)
+                        <div class="alert alert-success mb-0">
+                            <i class="fas fa-thumbs-up"></i> Sebagian besar pengaduan Anda telah diselesaikan!
+                        </div>
+                    @elseif($tingkatPenyelesaianUser >= 50)
+                        <div class="alert alert-info mb-0">
+                            <i class="fas fa-info-circle"></i> Pengaduan Anda sedang dalam proses penyelesaian.
+                        </div>
+                    @else
+                        <div class="alert alert-warning mb-0">
+                            <i class="fas fa-clock"></i> Pengaduan Anda akan segera diproses.
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <!-- Rating Card -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-star"></i> Rating Pelayanan
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    @if($ratingRataRata > 0)
+                        <div class="display-4 text-warning mb-3">
+                            <i class="fas fa-star"></i> {{ number_format($ratingRataRata, 1) }}/5
+                        </div>
+                        <p class="text-muted mb-3">Rating rata-rata yang Anda berikan</p>
+
+                        @if($ratingRataRata >= 4)
+                            <div class="alert alert-success mb-0">
+                                <i class="fas fa-heart"></i> Anda puas dengan pelayanan yang diberikan!
+                            </div>
+                        @elseif($ratingRataRata >= 3)
+                            <div class="alert alert-info mb-0">
+                                <i class="fas fa-smile"></i> Pelayanan cukup memuaskan untuk Anda.
+                            </div>
+                        @else
+                            <div class="alert alert-warning mb-0">
+                                <i class="fas fa-meh"></i> Kami akan terus berusaha meningkatkan pelayanan.
+                            </div>
+                        @endif
+                    @else
+                        <div class="py-4">
+                            <i class="fas fa-star-half-alt fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Belum ada rating yang diberikan</p>
+                            <small class="text-muted">Rating akan muncul setelah Anda memberikan ulasan</small>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <!-- Waktu Penyelesaian Card -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-clock"></i> Waktu Penyelesaian
+                    </h6>
+                </div>
+                <div class="card-body text-center">
+                    @if($waktuRataRataPenyelesaian > 0)
+                        <div class="display-4 text-success mb-3">{{ $waktuRataRataPenyelesaian }}</div>
+                        <p class="text-muted mb-3">Hari rata-rata penyelesaian</p>
+
+                        @if($waktuRataRataPenyelesaian <= 7)
+                            <div class="alert alert-success mb-0">
+                                <i class="fas fa-rocket"></i> Pengaduan Anda diselesaikan dengan cepat!
+                            </div>
+                        @elseif($waktuRataRataPenyelesaian <= 14)
+                            <div class="alert alert-info mb-0">
+                                <i class="fas fa-check"></i> Waktu penyelesaian dalam batas normal.
+                            </div>
+                        @else
+                            <div class="alert alert-warning mb-0">
+                                <i class="fas fa-hourglass"></i> Penyelesaian membutuhkan waktu lebih lama.
+                            </div>
+                        @endif
+                    @else
+                        <div class="py-4">
+                            <i class="fas fa-hourglass-start fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Belum ada data waktu penyelesaian</p>
+                            <small class="text-muted">Data akan muncul setelah ada pengaduan yang selesai</small>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Row - Charts -->
+    <div class="row">
         <!-- Riwayat Pengaduan Chart -->
         <div class="col-xl-8 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Riwayat Pengaduan Saya (6 Bulan Terakhir)</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-area"></i> Riwayat Pengaduan Saya (6 Bulan Terakhir)
+                    </h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
                         <canvas id="myAreaChart"></canvas>
                     </div>
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle"></i>
+                            Grafik menunjukkan tren pengaduan yang Anda laporkan dalam 6 bulan terakhir
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Status Distribusi Pie Chart -->
+        <!-- Status Distribution Pie Chart -->
         <div class="col-xl-4 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Status Pengaduan Saya</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-chart-pie"></i> Status Pengaduan
+                    </h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
@@ -115,7 +233,7 @@
                         @if($statusDistribusi->isNotEmpty())
                             @foreach($statusDistribusi as $status)
                                 <span class="mr-2">
-                                    <i class="fas fa-circle 
+                                    <i class="fas fa-circle
                                         @if($status->status == 'baru') text-warning
                                         @elseif($status->status == 'diproses') text-primary
                                         @elseif($status->status == 'selesai') text-success
@@ -134,35 +252,55 @@
         </div>
     </div>
 
-    <!-- Content Row -->
+    <!-- Content Row - Recent Activities & Quick Actions -->
     <div class="row">
         <!-- Pengaduan Terbaru Saya -->
         <div class="col-lg-8 mb-4">
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Pengaduan Terbaru Saya</h6>
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-list"></i> Pengaduan Terbaru Saya
+                    </h6>
+                    <a href="{{ route('penduduk.pengaduan.index') }}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye"></i> Lihat Semua
+                    </a>
                 </div>
                 <div class="card-body">
                     @if($pengaduanTerbaru->isNotEmpty())
                         <div class="table-responsive">
-                            <table class="table table-bordered" width="100%" cellspacing="0">
-                                <thead>
+                            <table class="table table-borderless">
+                                <thead class="bg-light">
                                     <tr>
                                         <th>Tanggal</th>
                                         <th>Kategori</th>
                                         <th>Lokasi</th>
                                         <th>Status</th>
-                                        <th>Ditangani Oleh</th>
+                                        <th>Eksekutor</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($pengaduanTerbaru as $pengaduan)
                                     <tr>
-                                        <td>{{ $pengaduan->tanggal_pengaduan->format('d/m/Y') }}</td>
-                                        <td>{{ $pengaduan->kategori->nama }}</td>
-                                        <td>{{ $pengaduan->lokasi }}</td>
                                         <td>
-                                            <span class="badge 
+                                            <div class="text-sm font-weight-bold">
+                                                {{ $pengaduan->tanggal_pengaduan->format('d/m/Y') }}
+                                            </div>
+                                            <div class="text-xs text-muted">
+                                                {{ $pengaduan->tanggal_pengaduan->diffForHumans() }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-light">
+                                                {{ $pengaduan->kategori->nama ?? '-' }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="text-sm">
+                                                {{ Str::limit($pengaduan->lokasi, 30) }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge
                                                 @if($pengaduan->status == 'baru') badge-warning
                                                 @elseif($pengaduan->status == 'diproses') badge-primary
                                                 @elseif($pengaduan->status == 'selesai') badge-success
@@ -173,10 +311,15 @@
                                             </span>
                                         </td>
                                         <td>
-                                            @if($pengaduan->penugasan->isNotEmpty())
-                                                {{ $pengaduan->penugasan->first()->eksekutor->nama_lengkap }}
+                                            @if($pengaduan->penugasan && count($pengaduan->penugasan) > 0)
+                                                <div class="text-sm">
+                                                    @foreach($pengaduan->penugasan as $penugasan)
+                                                        {{ $penugasan->eksekutor->nama_lengkap ?? 'Eksekutor' }}
+                                                        @if(!$loop->last), @endif
+                                                    @endforeach
+                                                </div>
                                             @else
-                                                <span class="text-muted">Belum ditugaskan</span>
+                                                <span class="text-muted">-</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -185,114 +328,19 @@
                             </table>
                         </div>
                     @else
-                        <div class="text-center py-4">
-                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
-                            <p class="text-muted mb-3">Anda belum membuat pengaduan</p>
+                        <div class="text-center py-5">
+                            <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                            <h5 class="text-muted">Belum ada pengaduan</h5>
+                            <p class="text-muted">Anda belum pernah membuat pengaduan. Klik tombol di bawah untuk membuat pengaduan pertama.</p>
                             <a href="{{ route('landing.pengaduan.create') }}" class="btn btn-primary">
-                                <i class="fas fa-plus"></i> Buat Pengaduan Pertama
+                                <i class="fas fa-plus"></i> Buat Pengaduan Sekarang
                             </a>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-
-        <!-- Informasi & Statistik -->
-        <div class="col-lg-4 mb-4">
-            <!-- Rating Saya -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Rating Rata-rata Saya</h6>
-                </div>
-                <div class="card-body text-center">
-                    <div class="h2 mb-0 font-weight-bold text-primary">{{ number_format($ratingRataRata, 1) }}</div>
-                    <div class="text-muted mb-2">
-                        @for($i = 1; $i <= 5; $i++)
-                            <i class="fas fa-star {{ $i <= round($ratingRataRata) ? 'text-warning' : 'text-muted' }}"></i>
-                        @endfor
-                    </div>
-                    <hr>
-                    <div class="text-xs">
-                        <i class="fas fa-info-circle text-primary"></i>
-                        Rating yang Anda berikan untuk layanan
-                    </div>
-                </div>
-            </div>
-
-            <!-- Waktu Penyelesaian -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Waktu Rata-rata Penyelesaian</h6>
-                </div>
-                <div class="card-body text-center">
-                    <div class="h2 mb-0 font-weight-bold text-success">{{ $waktuRataRataPenyelesaian }}</div>
-                    <div class="text-muted">hari</div>
-                    <hr>
-                    <div class="text-xs">
-                        <i class="fas fa-clock text-success"></i>
-                        Waktu rata-rata pengaduan Anda diselesaikan
-                    </div>
-                </div>
-            </div>
-
-            <!-- Statistik Komunitas -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Statistik Komunitas</h6>
-                </div>
-                <div class="card-body">
-                    <div class="text-center mb-3">
-                        <div class="h4 mb-0 font-weight-bold text-info">{{ $totalPengaduanKomunitas }}</div>
-                        <div class="text-xs text-muted">Total Pengaduan Komunitas</div>
-                    </div>
-                    <div class="text-center mb-3">
-                        <div class="h4 mb-0 font-weight-bold text-success">{{ $tingkatPenyelesaianKomunitas }}%</div>
-                        <div class="text-xs text-muted">Tingkat Penyelesaian</div>
-                    </div>
-                    <hr>
-                    <div class="text-xs text-center">
-                        <i class="fas fa-users text-info"></i>
-                        Data keseluruhan komunitas desa
-                    </div>
-                </div>
-            </div>
-
-            <!-- Kategori Terpopuler -->
-            <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Kategori Terpopuler</h6>
-                </div>
-                <div class="card-body">
-                    @if($kategoriPopuler->isNotEmpty())
-                        @foreach($kategoriPopuler->take(3) as $kategori)
-                        <h4 class="small font-weight-bold">{{ $kategori->nama }} 
-                            <span class="float-right">{{ $kategori->pengaduan_count }}</span>
-                        </h4>
-                        <div class="progress mb-4">
-                            @php
-                                $max = $kategoriPopuler->first()->pengaduan_count;
-                                $percentage = $max > 0 ? ($kategori->pengaduan_count / $max) * 100 : 0;
-                            @endphp
-                            <div class="progress-bar 
-                                @if($loop->index == 0) bg-primary
-                                @elseif($loop->index == 1) bg-success  
-                                @else bg-info
-                                @endif
-                            " role="progressbar" style="width: {{ $percentage }}%"
-                                aria-valuenow="{{ $percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        @endforeach
-                    @else
-                        <div class="text-center py-3">
-                            <i class="fas fa-chart-bar fa-2x text-muted mb-2"></i>
-                            <p class="text-muted mb-0">Belum ada data kategori</p>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
     </div>
-
 @endsection
 
 @push('scripts')
@@ -304,7 +352,7 @@ var myLineChart = new Chart(ctx, {
     data: {
         labels: {!! json_encode($labelBulan) !!},
         datasets: [{
-            label: "Jumlah Pengaduan",
+            label: "Pengaduan Saya",
             lineTension: 0.3,
             backgroundColor: "rgba(78, 115, 223, 0.05)",
             borderColor: "rgba(78, 115, 223, 1)",
@@ -332,7 +380,7 @@ var myLineChart = new Chart(ctx, {
         scales: {
             xAxes: [{
                 time: {
-                    unit: 'month'
+                    unit: 'date'
                 },
                 gridLines: {
                     display: false,
@@ -375,15 +423,14 @@ var myLineChart = new Chart(ctx, {
             caretPadding: 10,
             callbacks: {
                 label: function(tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    return datasetLabel + ': ' + tooltipItem.yLabel + ' pengaduan';
+                    return tooltipItem.value + ' pengaduan';
                 }
             }
         }
     }
 });
 
-// Chart untuk Status Distribusi
+// Chart untuk Status Distribution
 var ctx2 = document.getElementById("myPieChart");
 var statusLabels = [];
 var statusCounts = [];
@@ -404,7 +451,7 @@ var statusColors = [];
         @endif
     @endforeach
 @else
-    statusLabels.push('Belum ada pengaduan');
+    statusLabels.push('Belum ada data');
     statusCounts.push(1);
     statusColors.push('#e3e6f0');
 @endif
@@ -432,11 +479,13 @@ var myPieChart = new Chart(ctx2, {
             displayColors: false,
             caretPadding: 10,
             callbacks: {
-                label: function(tooltipItem, chart) {
-                    var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                    var label = chart.labels[tooltipItem.index];
-                    var value = chart.datasets[0].data[tooltipItem.index];
-                    return label + ': ' + value + ' pengaduan';
+                label: function(tooltipItem, data) {
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                    var total = meta.total;
+                    var currentValue = dataset.data[tooltipItem.index];
+                    var percentage = parseFloat((currentValue/total*100).toFixed(1));
+                    return currentValue + ' (' + percentage + '%)';
                 }
             }
         },
