@@ -285,7 +285,7 @@
                             <div class="progress">
                                 @php
                                     $maxCount = $kategoriPopuler->first()->pengaduan_count ?? 1;
-                                    $percentage = ($kategori->pengaduan_count / $maxCount) * 100;
+                                    $percentage = $maxCount > 0 ? ($kategori->pengaduan_count / $maxCount) * 100 : 0;
                                     $colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-secondary'];
                                     $colorClass = $colors[$index % count($colors)];
                                 @endphp
